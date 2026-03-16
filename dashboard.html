@@ -5,11 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard – Kaizen AI</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dashboard.css" />
+  <script src="theme.js"></script>
 </head>
 <body>
+
   <nav>
-    <strong>Kaizen AI</strong>
+    <div class="nav-left">
+      <img src="images/Kaizenlogo.png" alt="Kaizen" class="nav-logo" />
+      <span class="nav-brand">Kaizen AI</span>
+    </div>
     <div class="nav-links">
       <a href="/dashboard.html" class="active">Dashboard</a>
       <a href="/activity.html">Activity</a>
@@ -20,58 +27,84 @@
       <a href="/ambient.html">Ambient</a>
       <a href="/profile.html">Profile</a>
     </div>
-    <span id="streak-info">
-      Streak: <strong id="streak">–</strong> 🔥 &nbsp;
-      <span id="userInfo"></span>
-    </span>
-    <button onclick="signOut()">Sign Out</button>
+    <div class="nav-right">
+      <button id="themeBtn" onclick="toggleTheme()" class="theme-btn">🌙 Dark</button>
+      <div class="streak-wrap">
+        <span id="streak-info">Streak: <strong id="streak">–</strong></span>
+        <div id="fireWrap" class="fire-wrap hidden">
+          <img src="images/fire.png" alt="fire" class="fire-img" />
+        </div>
+      </div>
+      <div class="user-avatar" id="userAvatar">👤</div>
+      <span id="userInfo" class="user-name"></span>
+      <button onclick="signOut()" class="pixel-btn">Sign Out</button>
+    </div>
   </nav>
-  <div class="section hero-row">
+
+
+  <div class="hero-row">
     <span class="mascot" id="mascotLeft">🤖</span>
     <div>
-      <h2 id="greeting">Hello! 👋</h2>
+      <h2 id="greeting" class="pixel-heading">Hello! 👋</h2>
       <p>Ready to improve today?</p>
     </div>
-    <span class="mascot" id="mascotRight">🚀</span>
   </div>
 
-<div class="dashboard-layout">
-
+  <!-- MAIN LAYOUT -->
+  <div class="dashboard-layout">
     <div class="main-content">
 
+      <!-- QUICK ACCESS -->
       <div class="section">
-        <h3>Quick Access</h3>
-        <button class="quick-btn" onclick="location.href='/activity.html'">➕ Add Habit</button>
-        <button class="quick-btn" onclick="location.href='/pomodoro.html'">⏱ Focus Mode</button>
-        <button class="quick-btn" onclick="location.href='/ai.html'">🤖 AI Assistant</button>
-        <button class="quick-btn" onclick="location.href='/graphs.html'">📊 Analytics</button>
-        <button class="quick-btn" onclick="location.href='/ambient.html'">🌙 Ambient Mode</button>
-        <button class="quick-btn" onclick="location.href='/profile.html'">👤 Profile</button>
+        <h3 class="pixel-heading sm">Quick Access</h3>
+        <div class="quick-grid">
+          <button class="quick-btn" onclick="location.href='/activity.html'">➕<span>Add Habit</span></button>
+          <button class="quick-btn" onclick="location.href='/pomodoro.html'">⏱<span>Focus</span></button>
+          <button class="quick-btn" onclick="location.href='/ai.html'">🤖<span>AI</span></button>
+          <button class="quick-btn" onclick="location.href='/graphs.html'">📊<span>Analytics</span></button>
+          <button class="quick-btn" onclick="location.href='/ambient.html'">🌙<span>Ambient</span></button>
+          <button class="quick-btn" onclick="location.href='/profile.html'">👤<span>Profile</span></button>
+        </div>
       </div>
 
-
-<div class="section">
-        <h3>Today's Progress</h3>
-        <div id="progressDots">Loading…</div>
+      <!-- HP / PROGRESS BAR -->
+      <div class="section">
+        <h3 class="pixel-heading sm">Today's Progress</h3>
+        <div class="hp-bar-wrap">
+          <div class="hearts-row" id="heartsRow">
+            <span class="heart full">❤️</span>
+            <span class="heart full">❤️</span>
+            <span class="heart full">❤️</span>
+            <span class="heart full">❤️</span>
+            <span class="heart full">❤️</span>
+          </div>
+          <div class="hp-bar-outer">
+            <div class="hp-bar-inner" id="hpBarInner" style="width: 0%"></div>
+            <span class="hp-label" id="hpLabel">0%</span>
+          </div>
+        </div>
+        <div id="progressDots" class="section">Loading…</div>
       </div>
 
+      <!-- CHARTS -->
       <div class="section grid2">
         <div class="card">
-          <h3>Time Distribution (This Week)</h3>
+          <h3 class="pixel-heading sm">Time Distribution</h3>
           <canvas id="pieChart" width="250" height="250"></canvas>
-      </div>
-      <div class="card">
-          <h3>Motivation</h3>
+        </div>
+        <div class="card">
+          <h3 class="pixel-heading sm">Motivation</h3>
           <blockquote id="quote">Small daily improvements lead to massive results.</blockquote>
           <p><em>– Kaizen Philosophy</em></p>
           <hr/>
-          <h4>Weekly Productivity</h4>
+          <h4 class="pixel-heading sm">Weekly Productivity</h4>
           <canvas id="barChart" width="250" height="200"></canvas>
+        </div>
       </div>
-  </div>
 
     </div>
 
+    <!-- MASCOT PANEL -->
     <div class="mascot-panel">
       <div class="mascot-emotion-wrap">
         <img id="emotionMascot" src="images/mascot-tired.png" alt="mascot" class="mascot-emotion-img" />
@@ -81,13 +114,9 @@
 
   </div>
 
-
-
-
-
-
-
-  <!--scripts-->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="/static/js/auth.js"></script>
   <script src="mascot.js"></script>
   <script src="dashboard.js"></script>
 </body>
