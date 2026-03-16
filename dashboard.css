@@ -219,31 +219,30 @@ nav {
 .quick-btn span { font-size: 0.75em; }
 
 /* ── HP Bar ──────────────────────────────────────── */
-.hp-bar-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 12px;
-}
+.hp-bar-wrap { margin-bottom: 12px; }
+
 .hearts-row { display: flex; gap: 4px; font-size: 1.3em; }
 .heart { transition: filter 0.3s; }
 .heart.empty { filter: grayscale(1) opacity(0.4); }
 
 .hp-bar-outer {
   position: relative;
+  display: flex;
+  align-items: center;
   width: 100%;
-  height: 24px;
-  background: #555;
+  height: 28px;
+  background: #3a3a3a;
   border: 3px solid var(--border);
   box-shadow: var(--pixel-shadow);
-  image-rendering: pixelated;
 }
+
 .hp-bar-inner {
   height: 100%;
-  background: var(--hp-full);
+  background: #e74c3c;
   transition: width 0.8s, background 0.5s;
   image-rendering: pixelated;
 }
+
 .hp-label {
   position: absolute;
   right: 8px;
@@ -253,6 +252,15 @@ nav {
   font-size: 0.55em;
   color: #fff;
   text-shadow: 1px 1px 0 #000;
+}
+
+.hp-heart {
+  width: 28px;
+  height: 28px;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+  z-index: 1;
+  margin-left: -3px;
 }
 
 /* ── Cards & Grid ────────────────────────────────── */

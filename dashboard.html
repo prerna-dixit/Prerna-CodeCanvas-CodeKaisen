@@ -30,7 +30,7 @@
     <div class="nav-right">
       <button id="themeBtn" onclick="toggleTheme()" class="theme-btn">🌙 Dark</button>
       <div class="streak-wrap">
-        <span id="streak-info">Streak: <strong id="streak">–</strong></span>
+        <span id="streak-info">Streak: <strong id="streak">-</strong></span>
         <div id="fireWrap" class="fire-wrap hidden">
           <img src="images/fire.png" alt="fire" class="fire-img" />
         </div>
@@ -71,17 +71,13 @@
       <div class="section">
         <h3 class="pixel-heading sm">Today's Progress</h3>
         <div class="hp-bar-wrap">
-          <div class="hearts-row" id="heartsRow">
-            <span class="heart full">❤️</span>
-            <span class="heart full">❤️</span>
-            <span class="heart full">❤️</span>
-            <span class="heart full">❤️</span>
-            <span class="heart full">❤️</span>
-          </div>
+         <div class="hp-bar-wrap">
           <div class="hp-bar-outer">
+            <img src="images/heart.png" class="hp-heart" alt="hp" />
             <div class="hp-bar-inner" id="hpBarInner" style="width: 0%"></div>
             <span class="hp-label" id="hpLabel">0%</span>
           </div>
+        </div>
         </div>
         <div id="progressDots" class="section">Loading…</div>
       </div>

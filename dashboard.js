@@ -27,30 +27,25 @@ function setDefaults() {
   document.getElementById("streak").textContent = "–";
   document.getElementById("progressDots").textContent = "No habits yet. Add some on the Activity page!";
   loadMascotMood();
+  updateFireStreak(0);
 }
 
 function updateHPBar(pct) {
   const bar   = document.getElementById("hpBarInner");
   const label = document.getElementById("hpLabel");
-  const hearts = document.querySelectorAll(".heart");
   if (!bar) return;
 
   bar.style.width = pct + "%";
   label.textContent = Math.round(pct) + "%";
 
-  // color
-  if (pct >= 70) bar.style.background = "#27ae60";
+  if (pct >= 70)      bar.style.background = "#27ae60";
   else if (pct >= 40) bar.style.background = "#f39c12";
-  else bar.style.background = "#e74c3c";
-
-  // hearts — 5 hearts, each = 20%
-  hearts.forEach((h, i) => {
-    h.classList.toggle("empty", pct < (i + 1) * 20);
-  });
+  else                bar.style.background = "#e74c3c";
 }
 
 function updateFireStreak(streak) {
   const fireWrap = document.getElementById("fireWrap");
+  if (!fireWrap) return;
   if (streak > 0) {
     fireWrap.classList.remove("hidden");
   } else {
