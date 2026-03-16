@@ -34,6 +34,7 @@ button { padding: 8px 16px; cursor: pointer; margin: 4px; }
   display: flex;
   gap: 20px;
   align-items: flex-start;
+  width: 100%;
 }
 .main-content {
   flex: 1;
@@ -43,12 +44,9 @@ button { padding: 8px 16px; cursor: pointer; margin: 4px; }
 .mascot-panel {
   width: 150px;
   flex-shrink: 0;
-  position: sticky;
-  top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 200px;
 }
 .mascot-emotion-wrap {
   display: flex;
