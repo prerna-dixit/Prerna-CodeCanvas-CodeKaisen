@@ -72,3 +72,24 @@ button { padding: 8px 16px; cursor: pointer; margin: 4px; }
   color: #555;
   text-align: center;
 }
+
+
+.progress-dot { display: inline-block; width: 18px; height: 18px; border-radius: 50%; margin: 4px; }
+.dot-red    { background: #e74c3c; }
+.dot-yellow { background: #f39c12; }
+.dot-green  { background: #27ae60; }
+
+.progress-item { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+.progress-bar-bg { flex: 1; height: 12px; background: #eee; border-radius: 6px; overflow: hidden; }
+.progress-bar-fill { height: 100%; border-radius: 6px; transition: width 0.5s; }
+.fill-red    { background: #e74c3c; }
+.fill-yellow { background: #f39c12; }
+.fill-green  { background: #27ae60; }
+
+.mascot { font-size: 40px; }
+.mascot-img { max-width: 80px; max-height: 80px; border-radius: 8px; }
+
+@media (max-width: 700px) {
+  .dashboard-layout { flex-direction: column; }
+  .mascot-panel { width: 100%; position: static; }
+}
