@@ -1,37 +1,38 @@
 /* ── Variables ───────────────────────────────────── */
 :root {
-  --bg:        #f5f0e8;
-  --bg2:       #fffdf7;
-  --surface:   #ffffff;
-  --border:    #c8b89a;
-  --text:      #2d2013;
-  --text2:     #6b5744;
-  --accent:    #c0392b;
-  --accent2:   #27ae60;
-  --nav-bg:    #2d2013;
-  --nav-text:  #f5e6c8;
-  --btn-bg:    #f5e6c8;
-  --btn-border:#c8b89a;
-  --hp-full:   #e74c3c;
-  --hp-mid:    #f39c12;
-  --hp-low:    #7f8c8d;
-  --pixel-shadow: 3px 3px 0px #2d2013;
+  --bg:           #fdf0f3;
+  --bg2:          #fff5f7;
+  --surface:      #ffffff;
+  --border:       #d4956a;
+  --text:         #3d1c1c;
+  --text2:        #7a4040;
+  --accent:       #c0392b;
+  --accent2:      #e8a0b0;
+  --nav-bg:       #3d1c1c;
+  --nav-text:     #fde8ec;
+  --btn-bg:       #fde8ec;
+  --btn-border:   #d4956a;
+  --hp-bar:       #e74c3c;
+  --pixel-shadow: 3px 3px 0px #3d1c1c;
+  --card-bg:      #fff5f7;
 }
 
 [data-theme="dark"] {
-  --bg:        #1a1a2e;
-  --bg2:       #16213e;
-  --surface:   #0f3460;
-  --border:    #533483;
-  --text:      #e0d7ff;
-  --text2:     #a89cc8;
-  --accent:    #e94560;
-  --accent2:   #0f9b58;
-  --nav-bg:    #0d0d1a;
-  --nav-text:  #e0d7ff;
-  --btn-bg:    #16213e;
-  --btn-border:#533483;
-  --pixel-shadow: 3px 3px 0px #533483;
+  --bg:           #0d0007;
+  --bg2:          #130010;
+  --surface:      #1a0015;
+  --border:       #8b1a4a;
+  --text:         #ffd6e7;
+  --text2:        #cc7fa0;
+  --accent:       #ff2d6e;
+  --accent2:      #a0003c;
+  --nav-bg:       #080005;
+  --nav-text:     #ffd6e7;
+  --btn-bg:       #1a0015;
+  --btn-border:   #8b1a4a;
+  --hp-bar:       #ff2d6e;
+  --pixel-shadow: 3px 3px 0px #8b1a4a;
+  --card-bg:      #1a0015;
 }
 
 /* ── Base ────────────────────────────────────────── */
@@ -268,7 +269,7 @@ nav {
 @media (max-width: 600px) { .grid2 { grid-template-columns: 1fr; } }
 
 .card {
-  background: var(--surface);
+  background: var(--card-bg);
   border: 3px solid var(--border);
   padding: 16px;
   box-shadow: var(--pixel-shadow);
@@ -332,8 +333,20 @@ blockquote {
   line-height: 1.8;
 }
 
-/* ── Responsive ──────────────────────────────────── */
 @media (max-width: 700px) {
   .dashboard-layout { flex-direction: column; }
   .mascot-panel { width: 100%; position: static; }
+}
+
+.hero-mascot {
+  width: 72px;
+  height: 72px;
+  image-rendering: pixelated;
+  object-fit: contain;
+  animation: mascot-bounce 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes mascot-bounce {
+  from { transform: translateY(0px); }
+  to   { transform: translateY(-8px); }
 }
