@@ -24,6 +24,7 @@ requireAuth(async (user) => {
   document.getElementById("greeting").textContent =
     `Hello, ${(user.displayName || "there").split(" ")[0]}! 👋`;
 
+  // Streak
   try {
     const streakData = await apiFetch(`/api/users/${user.uid}/streak`, { method: "PUT" });
     document.getElementById("streak").textContent = streakData.streak || 0;
@@ -34,31 +35,34 @@ requireAuth(async (user) => {
     } catch (_) {}
   }
 
-   await loadMascotMood();
+  // Mascot mood
+  await loadMascotMood();
 
+  // Today's progress
   try {
     const data = await apiFetch("/api/analytics/today");
     const dotsEl = document.getElementById("progressDots");
     if (!data.progress.length) {
       dotsEl.textContent = "No habits yet. Add some on the Activity page!";
-      return;
+    } else {
+      dotsEl.innerHTML = data.progress.map(h => {
+        const pct = h.target > 0 ? Math.min((h.spent / h.target) * 100, 100) : 0;
+        return `<div class="progress-item">
+          <span class="progress-dot dot-${h.status}"></span>
+          <strong>${h.name}</strong>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill fill-${h.status}" style="width:${pct}%"></div>
+          </div>
+          <span style="font-size:0.85em; color:#666;">${h.spent}/${h.target} min</span>
+        </div>`;
+      }).join("");
     }
-    dotsEl.innerHTML = data.progress.map(h => {
-      const pct = h.target > 0 ? Math.min((h.spent / h.target) * 100, 100) : 0;
-      return `<div class="progress-item">
-        <span class="progress-dot dot-${h.status}"></span>
-        <strong>${h.name}</strong>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill fill-${h.status}" style="width:${pct}%"></div>
-        </div>
-        <span style="font-size:0.85em; color:#666;">${h.spent}/${h.target} min</span>
-      </div>`;
-    }).join("");
   } catch (e) {
     document.getElementById("progressDots").textContent = "Could not load progress.";
   }
 
-   try {
+  // Doughnut chart
+  try {
     const dist = await apiFetch("/api/analytics/distribution");
     if (dist.length) {
       new Chart(document.getElementById("pieChart"), {
@@ -82,8 +86,8 @@ requireAuth(async (user) => {
     }
   } catch (_) {}
 
-
-    try {
+  // Bar chart
+  try {
     const weekly = await apiFetch("/api/analytics/weekly");
     if (weekly.length) {
       new Chart(document.getElementById("barChart"), {
@@ -109,5 +113,5 @@ requireAuth(async (user) => {
       });
     }
   } catch (_) {}
-});
 
+});
