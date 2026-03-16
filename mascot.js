@@ -36,3 +36,5 @@ async function loadMascotMood() {
     setMascotEmotion(null);
   }
 }
+
+loadMascotMood();
