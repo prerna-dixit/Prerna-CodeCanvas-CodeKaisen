@@ -33,5 +33,29 @@ requireAuth(async (user) => {
       document.getElementById("streak").textContent = userData.streak || 0;
     } catch (_) {}
   }
+
+   await loadMascotMood();
+
+  try {
+    const data = await apiFetch("/api/analytics/today");
+    const dotsEl = document.getElementById("progressDots");
+    if (!data.progress.length) {
+      dotsEl.textContent = "No habits yet. Add some on the Activity page!";
+      return;
+    }
+    dotsEl.innerHTML = data.progress.map(h => {
+      const pct = h.target > 0 ? Math.min((h.spent / h.target) * 100, 100) : 0;
+      return `<div class="progress-item">
+        <span class="progress-dot dot-${h.status}"></span>
+        <strong>${h.name}</strong>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill fill-${h.status}" style="width:${pct}%"></div>
+        </div>
+        <span style="font-size:0.85em; color:#666;">${h.spent}/${h.target} min</span>
+      </div>`;
+    }).join("");
+  } catch (e) {
+    document.getElementById("progressDots").textContent = "Could not load progress.";
+  }
 });
 
