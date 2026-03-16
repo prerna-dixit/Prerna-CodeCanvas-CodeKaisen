@@ -29,6 +29,35 @@ function setDefaults() {
   loadMascotMood();
 }
 
+function updateHPBar(pct) {
+  const bar   = document.getElementById("hpBarInner");
+  const label = document.getElementById("hpLabel");
+  const hearts = document.querySelectorAll(".heart");
+  if (!bar) return;
+
+  bar.style.width = pct + "%";
+  label.textContent = Math.round(pct) + "%";
+
+  // color
+  if (pct >= 70) bar.style.background = "#27ae60";
+  else if (pct >= 40) bar.style.background = "#f39c12";
+  else bar.style.background = "#e74c3c";
+
+  // hearts — 5 hearts, each = 20%
+  hearts.forEach((h, i) => {
+    h.classList.toggle("empty", pct < (i + 1) * 20);
+  });
+}
+
+function updateFireStreak(streak) {
+  const fireWrap = document.getElementById("fireWrap");
+  if (streak > 0) {
+    fireWrap.classList.remove("hidden");
+  } else {
+    fireWrap.classList.add("hidden");
+  }
+}
+
 if (typeof requireAuth === "function") {
   requireAuth(async (user) => {
     document.getElementById("userInfo").textContent = user.displayName || user.email;
@@ -40,35 +69,41 @@ if (typeof requireAuth === "function") {
       const streakData = await apiFetch(`/api/users/${user.uid}/streak`, { method: "PUT" });
       document.getElementById("streak").textContent = streakData.streak || 0;
     } catch (_) {
-      document.getElementById("streak").textContent = "–";
+    document.getElementById("streak").textContent = streakData.streak || 0;
+    updateFireStreak(streakData.streak || 0);
     }
 
     // Mascot mood
     await loadMascotMood();
 
-    // Today's progress
-    try {
-      const data = await apiFetch("/api/analytics/today");
-      const dotsEl = document.getElementById("progressDots");
-      if (!data.progress.length) {
-        dotsEl.textContent = "No habits yet. Add some on the Activity page!";
-      } else {
-        dotsEl.innerHTML = data.progress.map(h => {
-          const pct = h.target > 0 ? Math.min((h.spent / h.target) * 100, 100) : 0;
-          return `<div class="progress-item">
-            <span class="progress-dot dot-${h.status}"></span>
-            <strong>${h.name}</strong>
-            <div class="progress-bar-bg">
-              <div class="progress-bar-fill fill-${h.status}" style="width:${pct}%"></div>
-            </div>
-            <span style="font-size:0.85em; color:#666;">${h.spent}/${h.target} min</span>
-          </div>`;
-        }).join("");
-      }
-    } catch (_) {
-      document.getElementById("progressDots").textContent = "No habits yet. Add some on the Activity page!";
+// Today's progress + HP bar
+  try {
+    const data = await apiFetch("/api/analytics/today");
+    const dotsEl = document.getElementById("progressDots");
+    if (!data.progress.length) {
+      dotsEl.textContent = "No habits yet. Add some on the Activity page!";
+      updateHPBar(0);
+    } else {
+      const totalTarget = data.progress.reduce((sum, h) => sum + (h.target || 0), 0);
+      const totalSpent  = data.progress.reduce((sum, h) => sum + (h.spent  || 0), 0);
+      const pct = totalTarget > 0 ? Math.min((totalSpent / totalTarget) * 100, 100) : 0;
+      updateHPBar(pct);
+      dotsEl.innerHTML = data.progress.map(h => {
+        const p = h.target > 0 ? Math.min((h.spent / h.target) * 100, 100) : 0;
+        return `<div class="progress-item">
+          <span class="progress-dot dot-${h.status}"></span>
+          <strong>${h.name}</strong>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill fill-${h.status}" style="width:${p}%"></div>
+          </div>
+          <span style="font-size:0.85em;">${h.spent}/${h.target} min</span>
+        </div>`;
+      }).join("");
     }
-
+  } catch (_) {
+    document.getElementById("progressDots").textContent = "Could not load progress.";
+    updateHPBar(0);
+  }
     // Doughnut chart
     try {
       const dist = await apiFetch("/api/analytics/distribution");
