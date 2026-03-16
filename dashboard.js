@@ -81,5 +81,33 @@ requireAuth(async (user) => {
       });
     }
   } catch (_) {}
+
+
+    try {
+    const weekly = await apiFetch("/api/analytics/weekly");
+    if (weekly.length) {
+      new Chart(document.getElementById("barChart"), {
+        type: "bar",
+        data: {
+          labels: weekly.map(d => d.date.slice(5)),
+          datasets: [{
+            label: "Score %",
+            data: weekly.map(d => d.score),
+            backgroundColor: weekly.map(d =>
+              d.score >= 70 ? "#27ae60" : d.score >= 40 ? "#f39c12" : "#e74c3c"
+            ),
+            borderRadius: 4,
+          }],
+        },
+        options: {
+          scales: {
+            y: { min: 0, max: 100, grid: { color: "#f0f0f0" } },
+            x: { grid: { display: false } },
+          },
+          plugins: { legend: { display: false } },
+        },
+      });
+    }
+  } catch (_) {}
 });
 
