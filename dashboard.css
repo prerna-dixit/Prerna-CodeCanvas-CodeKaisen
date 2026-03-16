@@ -233,8 +233,8 @@ nav {
   border: 2px solid var(--border);
   box-shadow: var(--pixel-shadow);
   cursor: pointer;
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.85em;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55em;
   color: var(--text);
   min-width: 100px;
   flex: 1;
