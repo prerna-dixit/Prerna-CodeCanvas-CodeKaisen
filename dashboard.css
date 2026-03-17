@@ -234,7 +234,7 @@ nav {
   box-shadow: var(--pixel-shadow);
   cursor: pointer;
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.55em;
+  font-size: 0.65em;
   color: var(--text);
   min-width: 100px;
   flex: 1;
